@@ -516,20 +516,12 @@ class Graph(SetOpsMixin):
         >>> g.n
         5
         """
-        try:
-            import networkx as nx
-        except ImportError:
-            raise ImportError("NetworkX is required.") from None
+        import networkx as nx
 
         nodes = list(graph.nodes())
-
-        try:
-            sparse_array = nx.to_scipy_sparse_array(
-                graph, nodelist=nodes, weight=weight_col
-            )
-        except KeyError:
-            # If weight_col doesn't exist, use binary weights
-            sparse_array = nx.to_scipy_sparse_array(graph, nodelist=nodes, weight=None)
+        sparse_array = nx.to_scipy_sparse_array(
+            graph, nodelist=nodes, weight=weight_col
+        )
 
         return cls.from_sparse(sparse_array, ids=nodes)
 
